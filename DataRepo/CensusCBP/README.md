@@ -63,20 +63,11 @@ kable(CBP[order(year,state_name)][1:5])
 
 ``` r
 gg <- ggplot(aes(x=year,y=employment_march/1e6,color=state_name,linetype=state_name),data=CBP[state_name %in% c('California','Florida','Illinois','New York','Texas')]) + 
-  geom_line(size = 1.5) +
+  geom_line(linewidth = 1.5) +
   theme_bw(base_size=14) + 
   labs(x="Year", y="March Employment (millions)",title="Census CBP",color="State",linetype="State") +
   scale_x_continuous(breaks= c(2000,2005,2010,2015,2020), limits=c(1999,2021)) +
   scale_y_continuous(breaks= pretty_breaks())
-```
-
-    ## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-    ## ℹ Please use `linewidth` instead.
-    ## This warning is displayed once every 8 hours.
-    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-    ## generated.
-
-``` r
 ggsave(gg,file='CBP_state_employment.png',width=8,height=5)
 ```
 
