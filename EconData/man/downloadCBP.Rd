@@ -4,10 +4,10 @@
 \alias{downloadCBP}
 \title{Download CBP data}
 \usage{
-downloadCBP(years = 2017, location = "national", output_path)
+downloadCBP(years = 2019, location = "national", input_path)
 }
 \arguments{
-\item{years}{(integer) any integer between 2000 and 2017 is supported.}
+\item{years}{(integer) any integer between 1999 and 2021 is supported.}
 
 \item{location}{(character) options are "county", "state", "national".}
 }

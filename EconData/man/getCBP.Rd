@@ -5,7 +5,7 @@
 \title{Prepare CBP data}
 \usage{
 getCBP(
-  years = 2017,
+  years = 2019,
   location = "national",
   industry = 0,
   LFO = "-",
@@ -14,7 +14,7 @@ getCBP(
 )
 }
 \arguments{
-\item{years}{(integer) any integer between 2000 and 2017 is supported.}
+\item{years}{(integer) any integer between 1999 and 2021 is supported.}
 
 \item{location}{(character) options are "county", "state", "national".}
 

@@ -1,6 +1,6 @@
 
 #' Download CBP data
-#' @param years (integer) any integer between 2001 and 2019 is supported.
+#' @param years (integer) any integer between 1999 and 2021 is supported.
 #' @param location (character) options are "county", "state", "national".
 #' @export
 downloadCBP <- function(years = 2019, location = "national", input_path) {
@@ -10,7 +10,7 @@ downloadCBP <- function(years = 2019, location = "national", input_path) {
     stop(sprintf("location=%s is not available.", location))
   }
   for (year in years) {
-    if (year < 2001 | year > 2021) {
+    if (year < 1999 | year > 2021) {
       stop(sprintf("year=%s is not yet available.", year))
     }
   }
@@ -102,7 +102,7 @@ downloadCBP <- function(years = 2019, location = "national", input_path) {
 
 
 #' Prepare CBP data
-#' @param years (integer) any integer between 2001 and 2019 is supported.
+#' @param years (integer) any integer between 1999 and 2021 is supported.
 #' @param location (character) options are "county", "state", "national".
 #' @param industry (integer) options are 0, 2, 3, 4, 6.
 #' @param LFO (character) legal form of organization.
@@ -117,7 +117,7 @@ getCBP <- function(years = 2019, location = "national", industry = 0, LFO = "-",
     stop(sprintf("location=%s is not available.", location))
   }
   for (year in years) {
-    if (year < 2001 | year > 2021) {
+    if (year < 1999 | year > 2021) {
       stop(sprintf("year=%s is not yet available through the EconData package.", year))
     }
   }
@@ -182,6 +182,7 @@ getCBP <- function(years = 2019, location = "national", industry = 0, LFO = "-",
       ddin <- ddin[!grepl("/", naics) & !grepl("-", naics)]
       ddin[, naics := substr(naics, 1, industry)]
     }
+    ddin <- unique(ddin)
     gc()
 
     ## verify uniqueness

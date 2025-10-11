@@ -7,7 +7,7 @@ library(data.table)
 output_path <- "~/github/EconData/DataRepo/CensusCBP"
 input_path <- "~/github/EconData/DataRepo/CensusCBP/raw"
 misc_path <- "~/github/EconData/DataRepo/Miscellaneous"
-the_year_set <- 2001:2021
+the_year_set <- 1999:2021
 
 
 # download the files
