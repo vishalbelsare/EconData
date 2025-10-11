@@ -37,22 +37,30 @@ The resulting data set includes the variables `year, employment_march, payroll_q
 
 ### Demonstration
 
-Here, we download and clean the CBP files during 1999 - 2021. They are saved to the `DataRepo/CensusCBP` directory as `CBP_state_total.csv`.
+Here, we provide the core functions that download and clean the CBP files during 1999 - 2021. 
 
 ```{r echo=T, eval=F}
 library(EconData)
-CBP <- getCBP(years = 1999:2021, location = "state", industry = 0) 
-write.csv(CBP,file="~/github/EconData/DataRepo/CensusCBP/CBP_state_total.csv", row.names=F)
+
+# download CBP county employment files
+downloadCBP(years = 1999:2021, location = "county", 
+            input_path = "~/github/EconData/DataRepo/CensusCBP/raw")
+
+# clean CBP county employment files
+getCBP(years = 1999:2021, location = "county", industry = 0,  
+       input_path = "~/github/EconData/DataRepo/CensusCBP/raw", 
+       output_path = "~/github/EconData/DataRepo/CensusCBP") 
 
 ```
 
+These steps are performed for all relevant combinations of locations and industries by running `inst/runCBP.R`. Furthermore, `inst/runCBP.R` prepares the cleanly labeled final version of each dataset by level of aggregation.
 
 Let's plot the resulting data for the 5 most populous states:
 
 ```{r echo=T, eval=T}
 
 CBP <- setDT(read.csv(file="~/github/EconData/DataRepo/CensusCBP/CBP_state_total.csv"))
-kable(CBP[1:5])
+kable(CBP[order(year,state_name)][1:5])
 
 gg <- ggplot(aes(x=year,y=employment_march/1e6,color=state_name,linetype=state_name),data=CBP[state_name %in% c('California','Florida','Illinois','New York','Texas')]) + 
   geom_line(size = 1.5) +

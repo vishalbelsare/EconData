@@ -25,29 +25,41 @@ fips codes and industry codes corresponding to the `aggregation` choice.
 
 ### Demonstration
 
-Here, we download and clean the CBP files during 1999 - 2021. They are
-saved to the `DataRepo/CensusCBP` directory as `CBP_state_total.csv`.
+Here, we provide the core functions that download and clean the CBP
+files during 1999 - 2021.
 
 ``` r
 library(EconData)
-CBP <- getCBP(years = 1999:2021, location = "state", industry = 0) 
-write.csv(CBP,file="~/github/EconData/DataRepo/CensusCBP/CBP_state_total.csv", row.names=F)
+
+# download CBP county employment files
+downloadCBP(years = 1999:2021, location = "county", 
+            input_path = "~/github/EconData/DataRepo/CensusCBP/raw")
+
+# clean CBP county employment files
+getCBP(years = 1999:2021, location = "county", industry = 0,  
+       input_path = "~/github/EconData/DataRepo/CensusCBP/raw", 
+       output_path = "~/github/EconData/DataRepo/CensusCBP") 
 ```
+
+These steps are performed for all relevant combinations of locations and
+industries by running `inst/runCBP.R`. Furthermore, `inst/runCBP.R`
+prepares the cleanly labeled final version of each dataset by level of
+aggregation.
 
 Let’s plot the resulting data for the 5 most populous states:
 
 ``` r
 CBP <- setDT(read.csv(file="~/github/EconData/DataRepo/CensusCBP/CBP_state_total.csv"))
-kable(CBP[1:5])
+kable(CBP[order(year,state_name)][1:5])
 ```
 
 | state_fips | state_name | year | employment_march | establishments | payroll_quarter1 |
 |-----------:|:-----------|-----:|-----------------:|---------------:|-----------------:|
 |          1 | Alabama    | 1999 |          1633909 |         100507 |      10063550000 |
-|          1 | Alabama    | 2000 |          1653074 |          99817 |      10736881000 |
-|          1 | Alabama    | 2001 |          1620952 |          99261 |      10962678000 |
-|          1 | Alabama    | 2002 |          1581117 |          99931 |      11054027000 |
-|          1 | Alabama    | 2003 |          1597529 |          99838 |      11453340000 |
+|          2 | Alaska     | 1999 |           198459 |          18433 |       1596865000 |
+|          4 | Arizona    | 1999 |          1838277 |         112545 |      12467929000 |
+|          5 | Arkansas   | 1999 |           954948 |          62737 |       5499228000 |
+|          6 | California | 1999 |         12356363 |         784935 |     103724245000 |
 
 ``` r
 gg <- ggplot(aes(x=year,y=employment_march/1e6,color=state_name,linetype=state_name),data=CBP[state_name %in% c('California','Florida','Illinois','New York','Texas')]) + 
